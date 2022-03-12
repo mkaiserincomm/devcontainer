@@ -1,0 +1,35 @@
+name: Publish Docker image
+on:
+  push:
+    branches:
+      - main 
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:      
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      
+      - name: Docker meta
+        id: meta
+        uses: crazy-max/ghaction-docker-meta@v2
+        with:          
+          images: mgkaiser/devcontainer          
+          flavor: latest=false
+          tags: type=raw,enable=true,prefix=Build-,value=${{ github.run_number }}
+      
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Push to Docker Hub
+        uses: docker/build-push-action@v2
+        with:
+          context: ./webtest1
+          push: true    
+          build-args: "SUFFIX=${{ github.run_number }}"      
+          tags:   ${{ steps.meta.outputs.tags }} 
+          labels: ${{ steps.meta.outputs.labels }}  
