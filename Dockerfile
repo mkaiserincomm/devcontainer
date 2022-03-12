@@ -5,6 +5,8 @@ RUN apt-get update
 
 RUN apt-get install -y git
 RUN apt-get install -y curl
+RUN apt-get install -y ca-certificates apt-transport-https lsb-release gnupg
+RUN curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg 
 
 RUN apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
