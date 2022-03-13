@@ -4,9 +4,9 @@ MAINTAINER Michael Kaiser
 RUN apt-get update
 RUN apt-get install -y ca-certificates apt-transport-https lsb-release gnupg curl git
 RUN curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg 
-RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ bionic main" > tee /etc/apt/sources.list.d/azure-cli.list
+RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ bionic main" > /etc/apt/sources.list.d/azure-cli.list
 RUN apt-get update
-#RUN apt-get install -y azure-cli
+RUN apt-get install -y azure-cli
 RUN curl -LO "https://dl.k8s.io/release/v1.23.4/bin/linux/amd64/kubectl"
 #RUN install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
